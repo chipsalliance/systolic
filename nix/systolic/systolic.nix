@@ -21,9 +21,9 @@
 
 let
   self = stdenv.mkDerivation rec {
-    name = "gcd";
+    name = "systolic";
 
-    mainClass = "org.chipsalliance.gcd.elaborator.${target}Main";
+    mainClass = "org.chipsalliance.systolic.elaborator.${target}Main";
 
     src = with lib.fileset;
       toSource {
@@ -31,8 +31,9 @@ let
         fileset = unions [
           ./../../build.sc
           ./../../common.sc
-          ./../../gcd
+          ./../../systolic
           ./../../elaborator
+          ./../../regrouter
         ];
       };
 
@@ -56,6 +57,7 @@ let
       });
 
       inherit target;
+      inherit env;
     };
 
     shellHook = ''

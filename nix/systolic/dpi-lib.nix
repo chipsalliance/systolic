@@ -18,12 +18,7 @@ rustPlatform.buildRustPackage rec {
   buildFeatures = lib.optionals sv2023 [ "sv2023" ]
     ++ lib.optionals vpi [ "vpi" ] ++ lib.optionals enable-trace [ "trace" ];
 
-  env = {
-    DESIGN_DATA_WIDTH = tbConfig.gcdParameter.width;
-    DESIGN_TIMEOUT = tbConfig.timeout;
-    DESIGN_TEST_SIZE = tbConfig.testSize;
-    CLOCK_FLIP_TIME = tbConfig.testVerbatimParameter.clockFlipTick * timescale;
-  };
+  env = { };
 
   passthru = {
     inherit enable-trace;
