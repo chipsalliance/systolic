@@ -30,6 +30,12 @@ trait HasChisel extends ScalaModule {
   )
 }
 
+trait HasChiselInterface extends HasChisel {
+  def axi4Module: ScalaModule
+  def dwbbModule: ScalaModule
+  override def moduleDeps = super.moduleDeps ++ Seq(axi4Module, dwbbModule)
+}
+
 trait ElaboratorModule extends ScalaModule with HasChisel {
   def generators:            Seq[ScalaModule]
   def panamaconverterModule: ScalaModule

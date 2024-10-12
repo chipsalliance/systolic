@@ -24,11 +24,12 @@
       {
         formatter = pkgs.nixpkgs-fmt;
         legacyPackages = pkgs;
-        devShells.default = pkgs.mkShell ({
-          inputsFrom = [ pkgs.gcd.gcd-compiled pkgs.gcd.tb-dpi-lib ];
-          nativeBuildInputs = [ pkgs.cargo pkgs.rustfmt pkgs.rust-analyzer ];
-          RUST_SRC_PATH =
-            "${pkgs.rust.packages.stable.rustPlatform.rustLibSrc}";
-        } // pkgs.gcd.tb-dpi-lib.env);
+        devShells.default = pkgs.mkShell
+          ({
+            inputsFrom = [ pkgs.systolic.compiled ];
+            nativeBuildInputs = [ pkgs.cargo pkgs.rustfmt pkgs.rust-analyzer ];
+            RUST_SRC_PATH =
+              "${pkgs.rust.packages.stable.rustPlatform.rustLibSrc}";
+          } // pkgs.systolic.compiled.env);
       });
 }

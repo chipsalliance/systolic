@@ -4,22 +4,22 @@
 { lib, newScope, }:
 lib.makeScope newScope (scope:
 let
-  designTarget = "GCD";
-  tbTarget = "GCDTestBench";
-  formalTarget = "GCDFormal";
-  dpiLibName = "gcdemu";
+  designTarget = "Systolic";
+  tbTarget = "SystolicTestBench";
+  formalTarget = "SystolicFormal";
+  dpiLibName = "systolicemu";
 in
 {
   # RTL
-  gcd-compiled = scope.callPackage ./gcd.nix { target = designTarget; };
+  compiled = scope.callPackage ./systolic.nix { target = designTarget; };
   elaborate = scope.callPackage ./elaborate.nix {
-    elaborator = scope.gcd-compiled.elaborator;
+    elaborator = scope.compiled.elaborator;
   };
   mlirbc = scope.callPackage ./mlirbc.nix { };
   rtl = scope.callPackage ./rtl.nix { };
 
   # Testbench
-  tb-compiled = scope.callPackage ./gcd.nix { target = tbTarget; };
+  tb-compiled = scope.callPackage ./systolic.nix { target = tbTarget; };
   tb-elaborate = scope.callPackage ./elaborate.nix {
     elaborator = scope.tb-compiled.elaborator;
   };
@@ -48,21 +48,6 @@ in
   };
   vcs-trace = scope.vcs.override {
     dpi-lib = scope.vcs.dpi-lib.override { enable-trace = true; };
-  };
-
-  # Formal
-  formal-compiled = scope.callPackage ./gcd.nix { target = formalTarget; };
-  formal-elaborate = scope.callPackage ./elaborate.nix {
-    elaborator = scope.formal-compiled.elaborator;
-  };
-  formal-mlirbc =
-    scope.callPackage ./mlirbc.nix { elaborate = scope.formal-elaborate; };
-  formal-rtl = scope.callPackage ./rtl.nix {
-    mlirbc = scope.formal-mlirbc;
-    enable-layers = [ "Verification" "Verification.Assume" "Verification.Assert" "Verification.Cover" ];
-  };
-  jg-fpv = scope.callPackage ./jg-fpv.nix {
-    rtl = scope.formal-rtl;
   };
 
   # TODO: designConfig should be read from OM
