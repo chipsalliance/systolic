@@ -72,6 +72,7 @@ trait Systolic extends millbuild.common.HasChiselInterface with ScalafmtModule {
 
   def axi4Module = axi4
   def dwbbModule = dwbb
+  def stdlibModule = stdlib
   def chiselModule = Some(chisel)
   def chiselPluginJar = T(Some(chisel.pluginModule.jar()))
   def chiselIvy = None
@@ -97,6 +98,21 @@ trait Elaborator extends millbuild.common.ElaboratorModule with ScalafmtModule {
   def chiselPluginJar = T(Some(chisel.pluginModule.jar()))
   def chiselPluginIvy = None
   def chiselIvy = None
+}
+
+object stdlib extends Stdlib
+
+trait Stdlib extends millbuild.common.StdlibModule with ScalafmtModule {
+  def scalaVersion = deps.scalaVer
+
+  def mainargsIvy = deps.mainargs
+
+  def dwbbModule: ScalaModule = dwbb
+
+  def chiselModule = Some(chisel)
+  def chiselPluginJar = T(Some(chisel.pluginModule.jar()))
+  def chiselIvy = None
+  def chiselPluginIvy = None
 }
 
 object panamaconverter extends PanamaConverter
