@@ -7,8 +7,8 @@ import chisel3.experimental.SerializableModule
 import chisel3.experimental.SerializableModuleParameter
 import chisel3.experimental.BundleLiterals.AddBundleLiteralConstructor
 import org.chipsalliance.amba._
-import chisel3.experimental.hierarchy.Instantiate
-import chisel3.experimental.hierarchy.Instance
+import chisel3.experimental.hierarchy._
+import chisel3.util.DecoupledIO
 
 object SystolicParameter {
   implicit def rwP: upickle.default.ReadWriter[SystolicParameter] =
@@ -20,17 +20,15 @@ case class SystolicParameter(
   idWidth:         Int,
   addrWidth:       Int,
   controlBusWidth: Int,
-  matrixSize:      Int,
   arrayParameter:  SystolicArrayParameter)
     extends SerializableModuleParameter {
   require(addrWidth >= 16)
-  require(matrixSize >= 4 && matrixSize <= 256)
   require(controlBusWidth % 8 == 0)
 }
 
 class SystolicInterface(parameter: SystolicParameter) extends Bundle {
-  val clock = Input(Clock())
-  val reset = Input(if (parameter.useAsyncReset) AsyncReset() else Bool())
+  val clock      = Input(Clock())
+  val reset      = Input(if (parameter.useAsyncReset) AsyncReset() else Bool())
   val controlBus = Flipped(
     axi4.bundle.verilog
       .irrevocable(
@@ -62,7 +60,7 @@ class SystolicInterface(parameter: SystolicParameter) extends Bundle {
       )
       .asInstanceOf[axi4.bundle.AXI4RWIrrevocableVerilog]
   )
-  val dataBus = Flipped(
+  val dataBus    = Flipped(
     axi4.bundle.verilog
       .irrevocable(
         axi4.bundle.AXI4BundleParameter(
@@ -105,24 +103,27 @@ class Systolic(val parameter: SystolicParameter)
   override protected def implicitReset: Reset = io.reset
 
   // control bus
+  val matrixSize       = parameter.arrayParameter.matrixSize
   val controlBusOffset = parameter.controlBusWidth / 8
 
   val ipVersion = 1.U(parameter.controlBusWidth.W)
-  val ipType = 1.U(parameter.controlBusWidth.W)
+  val ipType    = 1.U(parameter.controlBusWidth.W)
 
-  val arrayWidth = parameter.matrixSize.U(parameter.controlBusWidth.W)
-  val arrayHeight = parameter.matrixSize.U(parameter.controlBusWidth.W)
+  val arrayWidth  = matrixSize.U(parameter.controlBusWidth.W)
+  val arrayHeight = matrixSize.U(parameter.controlBusWidth.W)
 
-  val Seq(inputNorthAddr, inputWestAddr, outputSouthAddr, outputEastAddr) =
-    Seq.tabulate(4)(i => ((i * ((parameter.matrixSize + 0xfff) & 0xfffff000)).U(parameter.controlBusWidth.W)))
+  val inputAddr  = 0.U(parameter.controlBusWidth.W)
+  val outputAddr =
+    ((2 * matrixSize * matrixSize * parameter.arrayParameter.dataWidth / 8 + 0xfff) & 0xfffff000)
+      .U(parameter.controlBusWidth.W)
 
   val control = RegInit(new Bundle {
     val enable = Bool()
-    val reset = Bool()
+    val reset  = Bool()
   }.Lit(_.enable -> false.B, _.reset -> false.B))
 
   val matmulMode = RegInit(new Bundle {
-    val arrayMode = Bool()
+    val arrayMode  = Bool()
     val transposed = Bool()
   }.Lit(_.arrayMode -> false.B, _.transposed -> false.B))
 
@@ -135,10 +136,8 @@ class Systolic(val parameter: SystolicParameter)
       (ipType, RegFieldDesc("type", "IP type")),
       (arrayWidth, RegFieldDesc("arrayWidth", "Systolic array width")),
       (arrayHeight, RegFieldDesc("arrayHeight", "Systolic array height")),
-      (inputNorthAddr, RegFieldDesc("inputNorthAddr", "Input data from North")),
-      (inputWestAddr, RegFieldDesc("inputWestAddr", "Input data from West")),
-      (outputSouthAddr, RegFieldDesc("outputSouthAddr", "Output data to South")),
-      (outputEastAddr, RegFieldDesc("outputEastAddr", "Output data to East"))
+      (inputAddr, RegFieldDesc("inputNorthAddr", "Input data address")),
+      (outputAddr, RegFieldDesc("outputSouthAddr", "Output data address"))
     ).zipWithIndex.map { case ((value, desc), i) =>
       (controlBusOffset * i -> Seq(RegField.r(parameter.controlBusWidth, RegInit(value): UInt, desc)))
     } ++ Seq(
@@ -155,42 +154,57 @@ class Systolic(val parameter: SystolicParameter)
 
   // data bus
   val systolicArray = Instantiate(new SystolicArray(parameter.arrayParameter))
-  systolicArray.io.clock := implicitClock
+
+  val inputBufferDef = Definition(new InputBuffer(parameter.arrayParameter))
+  // val outputBufferDef = Definition(new OutputBuffer(parameter.arrayParameter))
+
+  val inputWestBuffer  = Instance(inputBufferDef)
+  val inputNorthBuffer = Instance(inputBufferDef)
+  // val outputSouthBuffer = Instance(outputBufferDef)
+
+  // read data when both the buffers are valid
+  val inputValid = inputNorthBuffer.io.sourceVec.valid && inputNorthBuffer.io.sourceVec.valid
+  val systole    = RegNext(inputValid)
+
+  systolicArray.io.clock := systole.asClock
   systolicArray.io.reset := implicitReset
 
-  systolicArray.io.inputNorth := 0.U
-  systolicArray.io.inputWest := 0.U
+  inputWestBuffer.io.clock  := implicitClock
+  inputWestBuffer.io.reset  := implicitReset
+  inputNorthBuffer.io.clock := implicitClock
+  inputNorthBuffer.io.reset := implicitReset
+
+  inputWestBuffer.io.sourceVec.ready  := inputValid
+  inputNorthBuffer.io.sourceVec.ready := inputValid
+  systolicArray.io.inputWest          := inputWestBuffer.io.sourceVec.bits
+  systolicArray.io.inputNorth         := inputNorthBuffer.io.sourceVec.bits
+  // outputSouthBuffer.io.resultVec.bits := systolicArray.io.outputSouth
+
+  def mapInputFields(buffer: Vec[Vec[DecoupledIO[UInt]]], direction: String) =
+    Seq.tabulate(matrixSize, matrixSize) { case (row, col) =>
+      RegField.w(
+        parameter.arrayParameter.dataWidth,
+        buffer(row)(col),
+        RegFieldDesc(
+          s"input${direction}_${row}_${col}",
+          s"${row + 1}-th row and ${col + 1}-th column input data from ${direction}"
+        )
+      )
+    }
 
   RegMapper.regmap(
     io.dataBus.viewAs[axi4.bundle.AXI4RWIrrevocable],
     0,
     false,
-    inputNorthAddr.litValue.toInt -> Seq(
-      RegField.w(
-        parameter.arrayParameter.dataWidth,
-        systolicArray.io.inputNorth,
-        RegFieldDesc("inputNorth", "Input data from North")
-      )
-    ),
-    inputWestAddr.litValue.toInt -> Seq(
-      RegField.w(
-        parameter.arrayParameter.dataWidth,
-        systolicArray.io.inputWest,
-        RegFieldDesc("inputWest", "Input data from West")
-      )
-    ),
-    outputSouthAddr.litValue.toInt -> Seq(
+    inputAddr.litValue.toInt  ->
+      mapInputFields(inputWestBuffer.io.matrixIn, "West").flatten
+        .zip(mapInputFields(inputNorthBuffer.io.matrixIn, "North").transpose.flatten)
+        .flatMap(x => Seq(x._1) ++ Seq(x._2)),
+    outputAddr.litValue.toInt -> Seq(
       RegField.r(
         parameter.arrayParameter.dataWidth,
-        systolicArray.io.outputSouth,
+        systolicArray.io.outputSouth(0).data,
         RegFieldDesc("outputSouth", "Output data to South")
-      )
-    ),
-    outputEastAddr.litValue.toInt -> Seq(
-      RegField.r(
-        parameter.arrayParameter.dataWidth,
-        systolicArray.io.outputEast,
-        RegFieldDesc("outputEast", "Output data to East")
       )
     )
   )

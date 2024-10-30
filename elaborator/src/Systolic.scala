@@ -20,15 +20,14 @@ object SystolicMain extends SerializableModuleElaborator {
     @arg(name = "idWidth") idWidth:                 Int,
     @arg(name = "addrWidth") addrWidth:             Int,
     @arg(name = "controlBusWidth") controlBusWidth: Int,
-    @arg(name = "matrixSize") matrixSize:           Int) {
+    @arg(name = "matrixSize") matrixSize: Int) {
     def convert =
       SystolicParameter(
         useAsyncReset,
         idWidth,
         addrWidth,
         controlBusWidth,
-        matrixSize,
-        SystolicArrayParameter(useAsyncReset, 32)
+        SystolicArrayParameter(useAsyncReset, matrixSize, 32)
       )
   }
 
