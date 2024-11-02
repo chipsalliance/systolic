@@ -9,6 +9,9 @@ import chisel3.experimental.BundleLiterals.AddBundleLiteralConstructor
 import org.chipsalliance.amba._
 import chisel3.experimental.hierarchy._
 import chisel3.util.DecoupledIO
+import chisel3.util.ShiftRegister
+import chisel3.util.Decoupled
+import chisel3.util.Arbiter
 
 object SystolicParameter {
   implicit def rwP: upickle.default.ReadWriter[SystolicParameter] =
@@ -155,12 +158,12 @@ class Systolic(val parameter: SystolicParameter)
   // data bus
   val systolicArray = Instantiate(new SystolicArray(parameter.arrayParameter))
 
-  val inputBufferDef = Definition(new InputBuffer(parameter.arrayParameter))
-  // val outputBufferDef = Definition(new OutputBuffer(parameter.arrayParameter))
+  val inputBufferDef  = Definition(new InputBuffer(parameter.arrayParameter))
+  val outputBufferDef = Definition(new OutputBuffer(parameter.arrayParameter))
 
-  val inputWestBuffer  = Instance(inputBufferDef)
-  val inputNorthBuffer = Instance(inputBufferDef)
-  // val outputSouthBuffer = Instance(outputBufferDef)
+  val inputWestBuffer   = Instance(inputBufferDef)
+  val inputNorthBuffer  = Instance(inputBufferDef)
+  val outputSouthBuffer = Instance(outputBufferDef)
 
   // read data when both the buffers are valid
   val inputValid = inputNorthBuffer.io.sourceVec.valid && inputNorthBuffer.io.sourceVec.valid
@@ -169,16 +172,21 @@ class Systolic(val parameter: SystolicParameter)
   systolicArray.io.clock := systole.asClock
   systolicArray.io.reset := implicitReset
 
-  inputWestBuffer.io.clock  := implicitClock
-  inputWestBuffer.io.reset  := implicitReset
-  inputNorthBuffer.io.clock := implicitClock
-  inputNorthBuffer.io.reset := implicitReset
+  inputWestBuffer.io.clock   := implicitClock
+  inputWestBuffer.io.reset   := implicitReset
+  inputNorthBuffer.io.clock  := implicitClock
+  inputNorthBuffer.io.reset  := implicitReset
+  outputSouthBuffer.io.clock := implicitClock
+  outputSouthBuffer.io.reset := implicitReset
 
   inputWestBuffer.io.sourceVec.ready  := inputValid
   inputNorthBuffer.io.sourceVec.ready := inputValid
   systolicArray.io.inputWest          := inputWestBuffer.io.sourceVec.bits
   systolicArray.io.inputNorth         := inputNorthBuffer.io.sourceVec.bits
-  // outputSouthBuffer.io.resultVec.bits := systolicArray.io.outputSouth
+
+  // all results will be produced after (2*M-1) + (M-1) cycles
+  outputSouthBuffer.io.resultVec.valid := ShiftRegister(inputValid, 3 * matrixSize - 2, systole)
+  outputSouthBuffer.io.resultVec.bits  := systolicArray.io.outputSouth
 
   def mapInputFields(buffer: Vec[Vec[DecoupledIO[UInt]]], direction: String) =
     Seq.tabulate(matrixSize, matrixSize) { case (row, col) =>
@@ -197,15 +205,23 @@ class Systolic(val parameter: SystolicParameter)
     0,
     false,
     inputAddr.litValue.toInt  ->
+      // interleaving
       mapInputFields(inputWestBuffer.io.matrixIn, "West").flatten
         .zip(mapInputFields(inputNorthBuffer.io.matrixIn, "North").transpose.flatten)
         .flatMap(x => Seq(x._1) ++ Seq(x._2)),
-    outputAddr.litValue.toInt -> Seq(
-      RegField.r(
-        parameter.arrayParameter.dataWidth,
-        systolicArray.io.outputSouth(0).data,
-        RegFieldDesc("outputSouth", "Output data to South")
-      )
-    )
+    outputAddr.litValue.toInt -> Seq
+      .tabulate(matrixSize, matrixSize) { case (row, col) =>
+        RegField.r(
+          parameter.arrayParameter.dataWidth,
+          VecInit(outputSouthBuffer.io.matrixOut(row)(col), outputSouthBuffer.io.matrixOut(col)(row))(
+            matmulMode.transposed.asUInt
+          ),
+          RegFieldDesc(
+            s"output_${row}_${col}",
+            s"${row + 1}-th row and ${col + 1}-th column output data"
+          )
+        )
+      }
+      .flatten
   )
 }

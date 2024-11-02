@@ -6,6 +6,8 @@ import chisel3.experimental.SerializableModule
 import chisel3.experimental.hierarchy.Instantiate
 import scala.util.chaining._
 import org.chipsalliance.dwbb.stdlib.queue.{Queue, QueueIO}
+import chisel3.ltl.AssertProperty
+import chisel3.ltl.Sequence._
 
 object MatrixInterface {
   def apply(parameter: SystolicArrayParameter) =
@@ -88,4 +90,26 @@ class OutputBuffer(val parameter: SystolicArrayParameter)
 
   val buffer = MatrixBuffer(parameter)
 
+  // read a row from systolic array
+  io.resultVec.ready := buffer.map(_.enq.ready).reduce(_ && _)
+  buffer.zip(io.resultVec.bits).foreach { case (queue, element) =>
+    queue.enq.valid := io.resultVec.valid
+    queue.enq.bits  := element
+
+    // we consider tag.valid as metadata and do not use it to control the handshakes
+    // but it should always be valid when output
+    AssertProperty(io.resultVec.valid |-> element.tag.valid)
+  }
+
+  val writePtr = RegInit(VecInit.fill(parameter.matrixSize)(0.U(log2Ceil(parameter.matrixSize).W)))
+  // output to regfields
+  io.matrixOut.zip(buffer).zip(writePtr).foreach { case ((line, queue), ptr) =>
+    line.zipWithIndex.foreach { case (element, j) =>
+      element.valid := Mux(ptr === j.U, queue.deq.valid, false.B)
+      // XXX: not sure
+      element.bits  := Mux(ptr === j.U, queue.deq.bits.data, 0.U)
+    }
+    ptr             := Mux(line(ptr).fire, Mux(ptr === (parameter.bufferSize - 1).U, 0.U, ptr + 1.U), ptr)
+    queue.deq.ready := line(ptr).fire
+  }
 }

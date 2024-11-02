@@ -39,7 +39,7 @@ class SystolicArrayInterface(parameter: SystolicArrayParameter) extends Bundle {
   val inputNorth  = Input(DataVec(parameter))
   val inputWest   = Input(DataVec(parameter))
   val outputSouth = Output(DataVec(parameter))
-  val outputEast  = Output(DataVec(parameter))
+  // val outputEast  = Output(DataVec(parameter))
 }
 
 class SystolicArray(val parameter: SystolicArrayParameter)
@@ -50,6 +50,8 @@ class SystolicArray(val parameter: SystolicArrayParameter)
   override protected def implicitClock: Clock = io.clock
   override protected def implicitReset: Reset = io.reset
 
-  io.outputSouth := io.inputNorth
-  io.outputEast  := io.inputWest
+  io.outputSouth.zip(io.inputWest.zip(io.inputNorth)).foreach { case (out, (west, north)) =>
+    out.data      := west.data + north.data
+    out.tag.valid := west.tag.valid && north.tag.valid
+  }
 }
