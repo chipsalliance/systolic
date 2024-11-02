@@ -8,10 +8,8 @@ import chisel3.experimental.SerializableModuleParameter
 import chisel3.experimental.BundleLiterals.AddBundleLiteralConstructor
 import org.chipsalliance.amba._
 import chisel3.experimental.hierarchy._
-import chisel3.util.DecoupledIO
 import chisel3.util.ShiftRegister
 import chisel3.util.Decoupled
-import chisel3.util.Arbiter
 
 object SystolicParameter {
   implicit def rwP: upickle.default.ReadWriter[SystolicParameter] =
@@ -200,6 +198,8 @@ class Systolic(val parameter: SystolicParameter)
       )
     }
 
+  val outputMapping = Seq.fill(matrixSize, matrixSize)(Wire(Decoupled(UInt(parameter.arrayParameter.dataWidth.W))))
+
   RegMapper.regmap(
     io.dataBus.viewAs[axi4.bundle.AXI4RWIrrevocable],
     0,
@@ -212,10 +212,16 @@ class Systolic(val parameter: SystolicParameter)
     outputAddr.litValue.toInt -> Seq
       .tabulate(matrixSize, matrixSize) { case (row, col) =>
         RegField.r(
-          parameter.arrayParameter.dataWidth,
-          VecInit(outputSouthBuffer.io.matrixOut(row)(col), outputSouthBuffer.io.matrixOut(col)(row))(
-            matmulMode.transposed.asUInt
-          ),
+          parameter.arrayParameter.dataWidth, {
+            // CIRCT cannot see that the mapping is a transpose and is afraid that the demux logic will cause some element not to be covered by the mapping
+            // thus we map in the both directions, which is dirtier, to eliminate the demux with mux
+            val (data, dataT)   = (outputSouthBuffer.io.matrixOut(row)(col), outputSouthBuffer.io.matrixOut(col)(row))
+            val (field, fieldT) = (outputMapping(row)(col), outputMapping(col)(row))
+            data.ready  := Mux(matmulMode.transposed, fieldT.ready, field.ready)
+            field.valid := Mux(matmulMode.transposed, dataT.valid, data.valid)
+            field.bits  := Mux(matmulMode.transposed, dataT.bits, data.bits)
+            field
+          },
           RegFieldDesc(
             s"output_${row}_${col}",
             s"${row + 1}-th row and ${col + 1}-th column output data"
