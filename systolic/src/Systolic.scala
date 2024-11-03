@@ -1,15 +1,14 @@
 package org.chipsalliance.systolic
 
 import chisel3._
-import chisel3.experimental.dataview._
-import org.chipsalliance.amba.axi4
-import chisel3.experimental.SerializableModule
-import chisel3.experimental.SerializableModuleParameter
 import chisel3.experimental.BundleLiterals.AddBundleLiteralConstructor
-import org.chipsalliance.amba._
+import chisel3.experimental.dataview._
 import chisel3.experimental.hierarchy._
-import chisel3.util.ShiftRegister
-import chisel3.util.Decoupled
+import chisel3.experimental.{SerializableModule, SerializableModuleParameter}
+
+import chisel3.util.{Decoupled, DecoupledIO, ShiftRegister}
+
+import org.chipsalliance.amba.{axi4, _}
 
 object SystolicParameter {
   implicit def rwP: upickle.default.ReadWriter[SystolicParameter] =

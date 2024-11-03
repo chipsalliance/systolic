@@ -1,8 +1,7 @@
 package org.chipsalliance.systolic
 
 import chisel3._
-import chisel3.experimental.SerializableModule
-import chisel3.experimental.SerializableModuleParameter
+import chisel3.experimental.{SerializableModule, SerializableModuleParameter}
 
 object SystolicArrayParameter {
   implicit def rwP: upickle.default.ReadWriter[SystolicArrayParameter] =

@@ -2,10 +2,12 @@ package org.chipsalliance.dwbb.stdlib.queue
 
 import chisel3._
 import chisel3.experimental.hierarchy.Instantiate
-import org.chipsalliance.dwbb.wrapper.DW_fifo_s1_sf.{DW_fifo_s1_sf => DwbbFifo}
-import org.chipsalliance.dwbb.interface.DW_fifo_s1_sf.{Interface => DwbbFifoInterface, Parameter => DwbbFifoParameter}
 import chisel3.ltl.AssertProperty
+
 import chisel3.util.{Decoupled, DecoupledIO, DeqIO, EnqIO, ReadyValidIO}
+
+import org.chipsalliance.dwbb.interface.DW_fifo_s1_sf.{Interface => DwbbFifoInterface, Parameter => DwbbFifoParameter}
+import org.chipsalliance.dwbb.wrapper.DW_fifo_s1_sf.{DW_fifo_s1_sf => DwbbFifo}
 
 class QueueIO[T <: Data](private val gen: T, entries: Int) extends Bundle {
   val enq = Flipped(EnqIO(gen))

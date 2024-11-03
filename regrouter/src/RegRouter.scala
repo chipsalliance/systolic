@@ -5,11 +5,12 @@
 // After finishing one or two riscv uncore ip developing, it will be upstreamed to chipsalliance/amba
 package org.chipsalliance.amba
 
+import scala.reflect.ClassTag
+
 import chisel3._
 import chisel3.experimental.SourceInfo
-import chisel3.util._
 
-import scala.reflect.ClassTag
+import chisel3.util._
 
 case class RegMapperParams(indexBits: Int, maskBits: Int, idBits: Int)
 

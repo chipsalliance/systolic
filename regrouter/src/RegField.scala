@@ -5,11 +5,12 @@
 
 package org.chipsalliance.amba
 
-import chisel3._
-import chisel3.util.{Decoupled, DecoupledIO, Irrevocable, ReadyValidIO}
-
 import scala.language.implicitConversions
 import scala.util.matching.Regex
+
+import chisel3._
+
+import chisel3.util.{Decoupled, DecoupledIO, Irrevocable, ReadyValidIO}
 
 // TODO: find some upickle friendly API?
 object RegFieldAccessType extends scala.Enumeration {

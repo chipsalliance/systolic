@@ -1,13 +1,16 @@
 package org.chipsalliance.systolic
 
+import scala.util.chaining._
+
 import chisel3._
-import chisel3.util._
 import chisel3.experimental.SerializableModule
 import chisel3.experimental.hierarchy.Instantiate
-import scala.util.chaining._
-import org.chipsalliance.dwbb.stdlib.queue.{Queue, QueueIO}
 import chisel3.ltl.AssertProperty
 import chisel3.ltl.Sequence._
+
+import chisel3.util._
+
+import org.chipsalliance.dwbb.stdlib.queue.{Queue, QueueIO}
 
 object MatrixInterface {
   def apply(parameter: SystolicArrayParameter) =

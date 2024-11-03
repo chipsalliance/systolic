@@ -2,9 +2,11 @@
 // SPDX-FileCopyrightText: 2024 Jiuyang Liu <liu@jiuyang.me>
 package org.chipsalliance.systolic.elaborator
 
-import mainargs._
-import org.chipsalliance.systolic._
 import chisel3.experimental.util.SerializableModuleElaborator
+
+import org.chipsalliance.systolic._
+
+import mainargs._
 
 object SystolicMain extends SerializableModuleElaborator {
   val topName = "Systolic"
