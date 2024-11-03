@@ -32,5 +32,5 @@ final: prev: {
 
   projectDependencies = final.callPackage ./pkgs/project-dependencies.nix { };
 
-  gcd = final.callPackage ./gcd { };
+  systolic = final.callPackage ./systolic { };
 }

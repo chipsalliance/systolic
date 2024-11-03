@@ -14,10 +14,10 @@ _VCS_FHS_ENV=@vcsFhsEnv@
 _VCS_COV_DIR=@vcsCovDir@
 
 _NOW=$("$_DATE_BIN" "+%Y-%m-%d-%H-%M-%S")
-_GCD_SIM_RESULT_DIR=${GCD_SIM_RESULT_DIR:-"gcd-sim-result"}
-_CURRENT="$_GCD_SIM_RESULT_DIR"/all/"$_NOW"
+_SYSTOLIC_SIM_RESULT_DIR=${SYSTOLIC_SIM_RESULT_DIR:-"systolic-sim-result"}
+_CURRENT="$_SYSTOLIC_SIM_RESULT_DIR"/all/"$_NOW"
 mkdir -p "$_CURRENT"
-ln -sfn "all/$_NOW" "$_GCD_SIM_RESULT_DIR/result"
+ln -sfn "all/$_NOW" "$_SYSTOLIC_SIM_RESULT_DIR/result"
 
 cp "$_VCS_SIM_BIN" "$_CURRENT/"
 cp -r "$_VCS_SIM_DAIDIR" "$_CURRENT/"
@@ -47,4 +47,4 @@ fi
 
 set -e _emu_name _daidir
 
-echo "VCS emulator finished, result saved in $_GCD_SIM_RESULT_DIR/result"
+echo "VCS emulator finished, result saved in $_SYSTOLIC_SIM_RESULT_DIR/result"
