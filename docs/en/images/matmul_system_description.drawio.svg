@@ -1,0 +1,135 @@
+<svg host="65bd71144e" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="561px" height="681px" viewBox="-0.5 -0.5 561 681" content="&lt;mxfile&gt;&lt;diagram id=&quot;pLU3TBZPdALR3Ovdh6Kf&quot; name=&quot;Page-1&quot;&gt;7Vpbc6IwFP41Pq4TCAF8ZNW6znrpKs62j1SiMoukg9ja/fUbMJFL2C0ywdZu6UyHnFyA73w5ORdbsLs9DELncTMmLvZbKnAPLdhrqarZUen/WPByFCiaqhwl69BzmSwVzL3fmAkBk+49F+9yAyNC/Mh7zAuXJAjwMsrJnDAkz/lhK+Lnn/rorLEgmC8dX5T+9Nxow74LgVT+DXvrDX+yAljP1uGDmWC3cVzynBHBfgt2Q0Ki49320MV+DB7H5Tjv5i+9pxcLcRBVmaCh44wnx9+zj2MvFr3wrw3JPnBxPAG04NeV5/td4pMw6YSr1UpdLql8F4XkF870uPqDjnTaI74Te80nHEb4kBGxdxxgssVR+EKH8F6d4cUY8+VEhecUf8QHbTLYIz7QYTpfnxZPYaE3DJm/wAoElLrTiT2bjlqqTj9ViYH5upjTIcOJ3Z/dWN0+vV9MhvaZaKL4L5aTIMrIj1cZynpy0Z4YTI9S1PK9dUD7HkgUka0c+FVQAX7VLIFfl4C+Bl/nKHbpBmXNgAQ4hmrjPMbNlY8PVrzpqQwfvOguhr6NWOueKSK+7x2yjRfeCOj7ZibFzXiWwhvptKTF5+0iJ4zYg3tL39ntvCUX33jx1yZLFBjggiXGapmmkY4UA/9LoTEI/1RniH0n8p7yVqxMNWzqLfHoI1IaIK1NuZZjQqeg4B3Zh0vMJmYNT4W1FFRYjEK1xpGwWEKY02dV45DWMIeUWhwCnxyieofyOFRcSh6DoMigWX8wnFNznz0ERtPu9/nFjH4Ttr0jmnZFaci0Q9H9mN/P7eloSKcCazaz7q8ZS1jxlFQ1GVh2BCytu6EAHzdpLtk/+JgbtcQr5r4saGtm5uooGh/BXHHQpi47tSQA6CZQDcoPo5ZnWFASSK6GaA3NispQVBk+i+gx9qY/J1Qyt2d9a3weqw1dB6YjArZKrjKINaj2kCEJShPloSzz/kpNhBQk1Von9zs8pcucCYkn9/HUZKDxqDg5/vKUlHfCV1ahIqhwcfsxtgK86FbQBRzHlj1e0CgU2NPbV4DMA8O2SRZdLmrOKMMCfGqJTW4MPd0Q0Pux6C/6F3MwmozQkVbBi9NKkIUy3DhD9I3tu4xXfFmcZcCJCnDqIpxl2SalGH/UQrNCTq7kxKt0MHBNZQ8GLrv8wWCIBm121bzRlbfkjWjgxCzlaDqIY6vrgRQabxifGmatrfiZepSdNqLhZjkLzs0ZCQs1mHQ0xIj8kz3vgT11E44CeZpLN3LPOJtAsGwrY8mt0XAwGfcnlysxSbDmRcfqVBnNWnO17ISUkSIz6+USZG3ID7ixzII6tc4pI3/u5iqGMGVrSdxfb1tU/PhUoK5vG2QuRZNDi9fWlUiRpmuG/xtFoBgd5VR5qrGdyxEhRnhtYYkkEYP1wjn9gX8XgmAB99LKQFnAKyM4M8XswdXWWBB6yxqLKWYOLmnpPgOVU/4IdPI0qBvmCgs1GOaaYpKkfuG5o+jpleyuQuHZBDDzl5i4d1V4RpUKz6UhjpStLOYcrrTWJpjEi9baOmL8XcUk/t9lZ06+xs1k0ZFUi7/yrW3daDP99fVxePobdtj/Aw==&lt;/diagram&gt;&lt;/mxfile&gt;">
+    <defs/>
+    <g>
+        <rect x="0" y="170" width="560" height="510" fill="#fff2cc" stroke="#d6b656" pointer-events="all"/>
+        <rect x="40" y="170" width="280" height="60" fill="#f5f5f5" stroke="#666666" pointer-events="all"/>
+        <g fill="#333333" font-family="Helvetica" text-anchor="middle" font-size="12px">
+            <text x="179.5" y="210.5">
+                CONTROL
+            </text>
+            <text x="179.5" y="224.5">
+                BUS INTERFACE UNIT
+            </text>
+        </g>
+        <path d="M 99.66 270.5 L 110.16 270.5 L 94.66 289.5 L 79.16 270.5 L 89.66 270.5 L 89.66 249.5 L 79.16 249.5 L 94.66 230.5 L 110.16 249.5 L 99.66 249.5 Z" fill="#d0cee2" stroke="#56517e" stroke-linejoin="round" stroke-miterlimit="10" pointer-events="all"/>
+        <path d="M 89.66 369.5 L 79.16 369.5 L 94.66 350.5 L 110.16 369.5 L 99.66 369.5 L 99.66 390.5 L 110.16 390.5 L 94.66 409.5 L 79.16 390.5 L 89.66 390.5 Z" fill="#d0cee2" stroke="#56517e" stroke-linejoin="round" stroke-miterlimit="10" pointer-events="all"/>
+        <rect x="40" y="290" width="110" height="60" fill="#f5f5f5" stroke="#666666" pointer-events="all"/>
+        <g fill="#333333" font-family="Helvetica" text-anchor="middle" font-size="12px">
+            <text x="94.5" y="317.5">
+                REGISTER
+            </text>
+            <text x="94.5" y="331.5">
+                BLOCKS
+            </text>
+        </g>
+        <rect x="40" y="410" width="280" height="240" fill="#f5f5f5" stroke="#666666" pointer-events="all"/>
+        <g fill="#333333" font-family="Helvetica" text-anchor="middle" font-size="12px">
+            <text x="179.5" y="534.5">
+                SYSTOLIC ARRAY
+            </text>
+        </g>
+        <path d="M 40 60 L 79.9 0 L 79.9 30.67 L 280.1 30.67 L 280.1 0 L 320 60 L 280.1 120 L 280.1 89.33 L 79.9 89.33 L 79.9 120 Z" fill="#fff2cc" stroke="#d6b656" stroke-miterlimit="10" pointer-events="all"/>
+        <g fill="#000000" font-family="Helvetica" text-anchor="middle" font-size="12px">
+            <text x="179.5" y="64.5">
+                AXI
+            </text>
+        </g>
+        <rect x="125" y="170" width="110" height="20" fill="#76608a" stroke="#432d57" pointer-events="all"/>
+        <g fill="#ffffff" font-family="Helvetica" text-anchor="middle" font-size="12px">
+            <text x="179.5" y="184.5">
+                DOWN STREAM
+            </text>
+        </g>
+        <path d="M 175 109.5 L 164.5 109.5 L 180 90.5 L 195.5 109.5 L 185 109.5 L 185 150.5 L 195.5 150.5 L 180 169.5 L 164.5 150.5 L 175 150.5 Z" fill="#d0cee2" stroke="#56517e" stroke-linejoin="round" stroke-miterlimit="10" pointer-events="all"/>
+        <rect x="125" y="70" width="110" height="20" fill="#76608a" stroke="#432d57" pointer-events="all"/>
+        <g fill="#ffffff" font-family="Helvetica" text-anchor="middle" font-size="12px">
+            <text x="179.5" y="84.5">
+                UP STREAM
+            </text>
+        </g>
+        <rect x="225" y="660" width="110" height="20" fill="none" stroke="none" pointer-events="all"/>
+        <g fill="#000000" font-family="Helvetica" text-anchor="middle" font-size="12px">
+            <text x="279.5" y="674.5">
+                MATMUL TOP
+            </text>
+        </g>
+        <rect x="380" y="290" width="140" height="360" fill="#f5f5f5" stroke="#666666" pointer-events="all"/>
+        <g fill="#333333" font-family="Helvetica" text-anchor="middle" font-size="12px">
+            <text x="449.5" y="644.5">
+                QUEUE
+            </text>
+        </g>
+        <rect x="390" y="320" width="60" height="130" fill="#f5f5f5" stroke="#666666" pointer-events="all"/>
+        <g fill="#333333" font-family="Helvetica" text-anchor="middle" font-size="12px">
+            <text x="419.5" y="382.5">
+                TX
+            </text>
+            <text x="419.5" y="396.5">
+                QUEUE
+            </text>
+        </g>
+        <path d="M 450 379 L 460.19 376.96 Q 470 375 470 385 L 470 390 Q 470 395 463.12 393.62 L 456.24 392.25" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/>
+        <path d="M 451.1 391.22 L 458.65 389.16 L 456.24 392.25 L 457.27 396.02 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/>
+        <rect x="450" y="320" width="60" height="130" fill="#f5f5f5" stroke="#666666" pointer-events="all"/>
+        <g fill="#333333" font-family="Helvetica" text-anchor="middle" font-size="12px">
+            <text x="479.5" y="382.5">
+                RX
+            </text>
+            <text x="479.5" y="396.5">
+                QUEUE
+            </text>
+        </g>
+        <rect x="210" y="290" width="110" height="60" fill="#f5f5f5" stroke="#666666" pointer-events="all"/>
+        <g fill="#333333" font-family="Helvetica" text-anchor="middle" font-size="12px">
+            <text x="264.5" y="317.5">
+                CONTROL
+            </text>
+            <text x="264.5" y="331.5">
+                LOGIC
+            </text>
+        </g>
+        <path d="M 270 270.5 L 280.5 270.5 L 265 289.5 L 249.5 270.5 L 260 270.5 L 260 249.5 L 249.5 249.5 L 265 230.5 L 280.5 249.5 L 270 249.5 Z" fill="#d0cee2" stroke="#56517e" stroke-linejoin="round" stroke-miterlimit="10" pointer-events="all"/>
+        <path d="M 270 390.5 L 280.5 390.5 L 265 409.5 L 249.5 390.5 L 260 390.5 L 260 369.5 L 249.5 369.5 L 265 350.5 L 280.5 369.5 L 270 369.5 Z" fill="#d0cee2" stroke="#56517e" stroke-linejoin="round" stroke-miterlimit="10" pointer-events="all"/>
+        <rect x="390" y="480" width="120" height="140" fill="#f5f5f5" stroke="#666666" pointer-events="all"/>
+        <g fill="#333333" font-family="Helvetica" text-anchor="middle" font-size="12px">
+            <text x="449.5" y="547.5">
+                DATA
+            </text>
+            <text x="449.5" y="561.5">
+                ALIGNMENT
+            </text>
+        </g>
+        <path d="M 339.5 534.66 L 339.5 545.16 L 320.5 529.66 L 339.5 514.16 L 339.5 524.66 L 360.5 524.66 L 360.5 514.16 L 379.5 529.66 L 360.5 545.16 L 360.5 534.66 Z" fill="#d0cee2" stroke="#56517e" stroke-linejoin="round" stroke-miterlimit="10" pointer-events="all"/>
+        <path d="M 339.5 325 L 339.5 335.5 L 320.5 320 L 339.5 304.5 L 339.5 315 L 360.5 315 L 360.5 304.5 L 379.5 320 L 360.5 335.5 L 360.5 325 Z" fill="#d0cee2" stroke="#56517e" stroke-linejoin="round" stroke-miterlimit="10" pointer-events="all"/>
+        <path d="M 169.5 325 L 169.5 335.5 L 150.5 320 L 169.5 304.5 L 169.5 315 L 190.5 315 L 190.5 304.5 L 209.5 320 L 190.5 335.5 L 190.5 325 Z" fill="#d0cee2" stroke="#56517e" stroke-linejoin="round" stroke-miterlimit="10" pointer-events="all"/>
+        <rect x="370" y="170" width="160" height="60" fill="#f5f5f5" stroke="#666666" pointer-events="all"/>
+        <g fill="#333333" font-family="Helvetica" text-anchor="middle" font-size="12px">
+            <text x="449.5" y="210.5">
+                DATA
+            </text>
+            <text x="449.5" y="224.5">
+                BUS INTERFACE UNIT
+            </text>
+        </g>
+        <rect x="395" y="170" width="110" height="20" fill="#76608a" stroke="#432d57" pointer-events="all"/>
+        <g fill="#ffffff" font-family="Helvetica" text-anchor="middle" font-size="12px">
+            <text x="449.5" y="184.5">
+                DOWN STREAM
+            </text>
+        </g>
+        <path d="M 454 270.5 L 464.5 270.5 L 449 289.5 L 433.5 270.5 L 444 270.5 L 444 249.5 L 433.5 249.5 L 449 230.5 L 464.5 249.5 L 454 249.5 Z" fill="#d0cee2" stroke="#56517e" stroke-linejoin="round" stroke-miterlimit="10" pointer-events="all"/>
+        <path d="M 340 60 L 379.67 0 L 379.67 30.5 L 520.33 30.5 L 520.33 0 L 560 60 L 520.33 120 L 520.33 89.5 L 379.67 89.5 L 379.67 120 Z" fill="#fff2cc" stroke="#d6b656" stroke-miterlimit="10" pointer-events="all"/>
+        <g fill="#000000" font-family="Helvetica" text-anchor="middle" font-size="12px">
+            <text x="449.5" y="64.5">
+                AXI
+            </text>
+        </g>
+        <rect x="395" y="70" width="110" height="20" fill="#76608a" stroke="#432d57" pointer-events="all"/>
+        <g fill="#ffffff" font-family="Helvetica" text-anchor="middle" font-size="12px">
+            <text x="449.5" y="84.5">
+                UP STREAM
+            </text>
+        </g>
+        <path d="M 445 109.5 L 434.5 109.5 L 450 90.5 L 465.5 109.5 L 455 109.5 L 455 150.5 L 465.5 150.5 L 450 169.5 L 434.5 150.5 L 445 150.5 Z" fill="#d0cee2" stroke="#56517e" stroke-linejoin="round" stroke-miterlimit="10" pointer-events="all"/>
+    </g>
+</svg>
