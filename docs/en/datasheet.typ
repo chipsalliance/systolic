@@ -1,11 +1,8 @@
-#let organization = (
-  name: "CHIPS Alliance",
-  logo: "./images/chips_alliance.svg",
-  website_url: "https://www.chipsalliance.org",
-)
-
 #let datasheet(
   metadata: (
+    organization: [CHIPS Alliance],
+    logo: "./images/chips_alliance.svg",
+    website_url: "https://www.chipsalliance.org",
     title: [Document Title],
     product: [Product Name],
     product_url: "https://www.chipsalliance.org",
@@ -63,7 +60,7 @@
             gutter: 3pt,
             [
               #set align(left)
-              #link(organization.website_url)[#image(organization.logo, height: 28pt)]
+              #link(metadata.website_url)[#image(metadata.logo, height: 28pt)]
             ],
             [
               #set align(right)
@@ -85,7 +82,7 @@
             ],
             [
               #set align(right)
-              #link(organization.website_url)[#image(organization.logo, height: 28pt)]
+              #link(metadata.website_url)[#image(metadata.logo, height: 28pt)]
             ]
           )
         }
@@ -107,7 +104,7 @@
           gutter: 0pt,
           [
             #set align(left)
-            Copyright © #link(organization.website_url)[#organization.name]
+            Copyright © #link(metadata.website_url)[#metadata.organization]
           ],
           [
             #set align(right)
@@ -125,7 +122,7 @@
           ],
           [
             #set align(right)
-            Copyright © #link(organization.website_url)[#organization.name]
+            Copyright © #link(metadata.website_url)[#metadata.organization]
           ]
         )
       }

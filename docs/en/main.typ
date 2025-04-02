@@ -2,9 +2,12 @@
 
 #datasheet(
   metadata: (
+    organization: [CHIPS Alliance],
+    logo: "./images/chips_alliance.svg",
+    website_url: "https://www.chipsalliance.org",
     title: [Systolic MATMUL],
     product: [Systolic MATMUL],
-    product_url: "https://github.com/vowstar/matmul",
+    product_url: "https://github.com/chipsalliance/systolic",
     revision: [v1.0.0],
     publish_date: [2024-12-21],
   ),
