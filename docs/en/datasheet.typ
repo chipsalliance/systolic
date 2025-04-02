@@ -160,35 +160,35 @@
   }
 
   let render_overview_page = () => {
-    v(-0.65em)
-    align(
-      center,
-      block({
-        set text(16pt, font: fonts.headings, weight: "medium")
-        metadata.title
-        v(-0.5em)
-        line(length: 100%, stroke: 1pt)
-        v(0.3em)
-      })
-    )
-    box(
-      height: auto,
-      columns(2, gutter: 30pt)[
-        = Features
-        <TitlePageFeatures>
-        #features
+    block(breakable: false)[
+      #v(-0.65em)
+      #align(
+        center,
+        block({
+          set text(16pt, font: fonts.headings, weight: "medium")
+          metadata.title
+          v(-0.5em)
+          line(length: 100%, stroke: 1pt)
+          v(0.3em)
+        })
+      )
+      #box(
+        height: 97%,
+        columns(2, gutter: 30pt)[
+          = Features
+          <TitlePageFeatures>
+          #features
 
-        = Applications
-        <TitlePageApplications>
-        #applications
+          = Applications
+          <TitlePageApplications>
+          #applications
 
-        #colbreak()
-
-        = Description
-        <Description>
-        #description
-      ]
-    )
+          = Description
+          <Description>
+          #description
+        ]
+      )
+    ]
   }
 
   let render_toc_page = () => {
@@ -196,9 +196,8 @@
     show heading: it => block([#it.body])
     [
       #block(
-        height: 40%,
         [
-          #columns(2, gutter: 30pt)[
+          #columns(1, gutter: 30pt)[
             = Contents
             <Directory>
             #outline(title: none, depth: 3)
