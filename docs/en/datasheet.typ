@@ -14,6 +14,7 @@
   applications: [],
   description: [],
   document: [],
+  backcover: [],
 ) = {
   let fonts = (
     serif: ("Sarasa Mono SC", "Noto Serif"),
@@ -160,34 +161,29 @@
   }
 
   let render_overview_page = () => {
-    block(breakable: false)[
-      #v(-0.65em)
-      #align(
-        center,
-        block({
-          set text(16pt, font: fonts.headings, weight: "medium")
-          metadata.title
-          v(-0.5em)
-          line(length: 100%, stroke: 1pt)
-          v(0.3em)
-        })
-      )
-      #box(
-        height: 97%,
-        columns(2, gutter: 30pt)[
-          = Features
-          <TitlePageFeatures>
-          #features
+    v(-0.65em)
+    align(
+      center,
+      block({
+        set text(16pt, font: fonts.headings, weight: "medium")
+        metadata.title
+        v(-0.5em)
+        line(length: 100%, stroke: 1pt)
+        v(0.3em)
+      })
+    )
+    columns(2, gutter: 30pt)[
+      = Features
+      <TitlePageFeatures>
+      #features
 
-          = Applications
-          <TitlePageApplications>
-          #applications
+      = Applications
+      <TitlePageApplications>
+      #applications
 
-          = Description
-          <Description>
-          #description
-        ]
-      )
+      = Description
+      <Description>
+      #description
     ]
   }
 
@@ -212,27 +208,19 @@
     set heading(numbering: none)
     [
       = Indexing
+      #columns(2, gutter: 30pt)[
+        == Figures
+        #outline(
+          title: none,
+          target: figure.where(kind: image)
+        )
 
-      #box(
-        height: auto,
-        [
-          #columns(2, gutter: 30pt)[
-            == Figures
-            #outline(
-              title: none,
-              target: figure.where(kind: image)
-            )
-            #colbreak()
-
-            == Tables
-            #outline(
-              title: none,
-              target: figure.where(kind: table)
-            )
-          ]
-          #line(length: 100%, stroke: 1pt)
-        ]
-      )
+        == Tables
+        #outline(
+          title: none,
+          target: figure.where(kind: table)
+        )
+      ]
     ]
   }
 
@@ -247,11 +235,7 @@
 
     #v(2.5cm)
 
-    #align(center)[
-      #heading(level: 1, outlined: false)[IMPORTANT NOTICE AND DISCLAIMER]
-    ]
-
-    This document contains proprietary information. Distribution is limited to authorized persons only.
+    #backcover
   ]
 
   // Main document flow

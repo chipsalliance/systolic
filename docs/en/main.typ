@@ -43,24 +43,19 @@
     operations, a fundamental computational task in many high-performance
     applications such as deep learning and scientific computing. The
     systolic array architecture is specifically chosen for its efficiency in
-    handling large-scale matrix operations, as it allows for high throughput
-    and low-latency computation by leveraging the parallel processing
-    capabilities inherent in the systolic design.
+    handling large-scale matrix operations, allowing for high throughput and
+    low-latency computation through parallel processing.
 
     The operation of the accelerator is managed via control registers, where
-    users can configure the systolic array’s mode, initiate operations, and
-    control data flow. Input data is fed into the systolic array through the
-    data input registers, and the results are retrieved via the data output
-    registers. Status registers provide real-time feedback on the progress
-    and completion of operations, enabling efficient monitoring and
-    management of the computation process.
+    users can configure the array's mode, initiate operations, and control
+    data flow. Input data is fed through data registers, and results are
+    retrieved via output registers. Status registers provide feedback on
+    operation progress and completion.
 
     By offloading matrix multiplication tasks to this accelerator, the
     computational burden on the main processor is significantly reduced,
-    allowing it to focus on other tasks, thereby improving the overall
-    system performance. This MMIO-based design also simplifies the
-    integration of the accelerator into existing systems, ensuring
-    compatibility and ease of use.
+    improving overall system performance. This MMIO-based design also
+    simplifies integration into existing systems, ensuring compatibility.
   ],
   document: [
     #include "about.typ"
@@ -69,4 +64,11 @@
     #include "registers.typ"
     #include "datapath.typ"
   ],
+  backcover: [
+    #align(center)[
+      #heading(level: 1, outlined: false)[ACKNOWLEDGEMENTS]
+    ]
+
+    Thank you for your interest in the Systolic MATMUL IP. We value your time spent reviewing this document and welcome your valuable feedback and suggestions for improvement. Your insights are crucial to the continued development and refinement of this technology. Please feel free to share your comments through our project repository or contact channels.
+  ]
 )
