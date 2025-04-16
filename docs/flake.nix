@@ -54,7 +54,7 @@
                   pandoc "$md" -f markdown -t typst -o "$typ_file"
                 fi
               done
-              export FILE_NAME=$(echo "${pkgName}" | sed 's/-/_/g')_$(basename "$src" | sed 's/^.*-//').pdf
+              export FILE_NAME=$(echo "${pkgName}" | sed 's/-/_/g')_$version.pdf
               typst compile main.typ "$FILE_NAME"
             '';
 
