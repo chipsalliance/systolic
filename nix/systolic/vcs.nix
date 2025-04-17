@@ -12,7 +12,7 @@
 }:
 
 let
-  binName = "gcd-vcs-simulator";
+  binName = "systolic-vcs-simulator";
   coverageName = "coverage.vdb";
 in
 stdenv.mkDerivation (finalAttr: {
@@ -65,12 +65,12 @@ stdenv.mkDerivation (finalAttr: {
     inherit rtl;
 
     tests.simple-sim = runCommand "${binName}-test" { __noChroot = true; } ''
-      export GCD_SIM_RESULT_DIR="$(mktemp -d)"
+      export SYSTOLIC_SIM_RESULT_DIR="$(mktemp -d)"
       export DATA_ONLY=1
       ${finalAttr.finalPackage}/bin/${binName}
 
       mkdir -p "$out"
-      cp -vr "$GCD_SIM_RESULT_DIR"/result/* "$out/"
+      cp -vr "$SYSTOLIC_SIM_RESULT_DIR"/result/* "$out/"
     '';
   };
 

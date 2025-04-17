@@ -30,6 +30,13 @@ trait HasChisel extends ScalaModule {
   )
 }
 
+trait HasChiselInterface extends HasChisel {
+  def axi4Module:   ScalaModule
+  def dwbbModule:   ScalaModule
+  def stdlibModule: ScalaModule
+  override def moduleDeps = super.moduleDeps ++ Seq(axi4Module, dwbbModule, stdlibModule)
+}
+
 trait ElaboratorModule extends ScalaModule with HasChisel {
   def generators:            Seq[ScalaModule]
   def panamaconverterModule: ScalaModule
@@ -45,4 +52,10 @@ trait ElaboratorModule extends ScalaModule with HasChisel {
       s"-Djava.library.path=${circtInstallPath().path / "lib"}"
     )
   )
+}
+
+trait StdlibModule extends ScalaModule with HasChisel {
+  def dwbbModule: ScalaModule
+
+  def moduleDeps = super.moduleDeps ++ Seq(dwbbModule)
 }
